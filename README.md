@@ -51,14 +51,15 @@ sudo ./scripts/production-setup.sh
 
 If your project files live elsewhere, provide the path as an argument:
 
-
 ```bash
 sudo ./scripts/production-setup.sh /var/www/html
 ```
 
-The script installs the necessary system packages, configures Composer and Bun,
-compiles assets and applies database migrations. Review the generated `.env`
-file to adjust environment settings before running the application.
+The script installs the necessary system packages (including PHP 8.4 from the
+Ondřej Surý repository), configures Composer and Bun, compiles assets and
+applies database migrations. Review the generated `.env` file to adjust
+environment settings before running the application.
+
 
 ## <a name="updating"></a> 🖥️ Updating
 

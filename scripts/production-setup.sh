@@ -9,12 +9,23 @@ fi
 
 PROJECT_DIR="${1:-$(pwd)}"
 
+if [ ! -d "$PROJECT_DIR" ]; then
+    echo "Error: $PROJECT_DIR is not a directory" >&2
+    exit 1
+fi
+
+PHP_VERSION=8.4
 
 # Install system packages
 apt-get update
+apt-get install -y software-properties-common
+add-apt-repository -y ppa:ondrej/php
+apt-get update
 apt-get install -y nginx mysql-server redis-server git curl unzip nodejs npm \
-    php8.3 php8.3-fpm php8.3-mysql php8.3-xml php8.3-mbstring \
-    php8.3-curl php8.3-zip php8.3-bcmath php8.3-gd php8.3-intl
+    php${PHP_VERSION} php${PHP_VERSION}-fpm php${PHP_VERSION}-mysql php${PHP_VERSION}-xml \
+    php${PHP_VERSION}-mbstring php${PHP_VERSION}-curl php${PHP_VERSION}-zip \
+    php${PHP_VERSION}-bcmath php${PHP_VERSION}-gd php${PHP_VERSION}-intl
+
 
 # Install Composer
 if ! command -v composer > /dev/null 2>&1; then
@@ -23,7 +34,8 @@ fi
 
 # Install Bun
 if ! command -v bun > /dev/null 2>&1; then
-    curl -fsSL https://bun.sh/install | bash
+    curl -fsSL https://bun.sh/install | bash -s -- --yes >/dev/null
+
     export BUN_INSTALL="${HOME}/.bun"
     export PATH="${BUN_INSTALL}/bin:$PATH"
 fi
@@ -37,7 +49,9 @@ if [ ! -f composer.json ]; then
 fi
 
 # Install PHP dependencies
-composer install --no-dev --optimize-autoloader
+export COMPOSER_ALLOW_SUPERUSER=1
+composer install --no-dev --optimize-autoloader --no-interaction
+
 
 # Prepare environment
 [ -f .env ] || cp .env.example .env
