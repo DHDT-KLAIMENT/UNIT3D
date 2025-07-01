@@ -9,6 +9,7 @@ fi
 
 PROJECT_DIR="${1:-$(pwd)}"
 
+
 # Install system packages
 apt-get update
 apt-get install -y nginx mysql-server redis-server git curl unzip nodejs npm \
