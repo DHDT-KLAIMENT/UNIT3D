@@ -42,6 +42,7 @@ UNIT3D (pronounced "united") is a modern Private Torrent Tracker software built 
 ## <a name="installation"></a> 🖥️ Installation
 
 An installation helper is provided for Ubuntu and Debian servers. Run the script
+
 as `root` from your cloned repository:
 
 ```bash
@@ -58,6 +59,7 @@ The script installs the necessary system packages (including PHP 8.4 from the
 Ondřej Surý repository), configures Composer and Bun, compiles assets and
 applies database migrations. Review the generated `.env` file to adjust
 environment settings before running the application.
+
 
 ## <a name="updating"></a> 🖥️ Updating
 

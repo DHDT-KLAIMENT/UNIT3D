@@ -26,6 +26,7 @@ apt-get install -y nginx mysql-server redis-server git curl unzip nodejs npm \
     php${PHP_VERSION}-mbstring php${PHP_VERSION}-curl php${PHP_VERSION}-zip \
     php${PHP_VERSION}-bcmath php${PHP_VERSION}-gd php${PHP_VERSION}-intl
 
+
 # Install Composer
 if ! command -v composer > /dev/null 2>&1; then
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
@@ -34,6 +35,7 @@ fi
 # Install Bun
 if ! command -v bun > /dev/null 2>&1; then
     curl -fsSL https://bun.sh/install | bash -s -- --yes >/dev/null
+
     export BUN_INSTALL="${HOME}/.bun"
     export PATH="${BUN_INSTALL}/bin:$PATH"
 fi
@@ -49,6 +51,7 @@ fi
 # Install PHP dependencies
 export COMPOSER_ALLOW_SUPERUSER=1
 composer install --no-dev --optimize-autoloader --no-interaction
+
 
 # Prepare environment
 [ -f .env ] || cp .env.example .env
