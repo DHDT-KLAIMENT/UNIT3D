@@ -7,7 +7,8 @@ if [ "$EUID" -ne 0 ]; then
     exit 1
 fi
 
-PROJECT_DIR="${1:-/var/www/html}"
+PROJECT_DIR="${1:-$(pwd)}"
+
 
 # Install system packages
 apt-get update
@@ -28,6 +29,12 @@ if ! command -v bun > /dev/null 2>&1; then
 fi
 
 cd "$PROJECT_DIR"
+
+# Ensure composer.json exists in the target directory
+if [ ! -f composer.json ]; then
+    echo "Error: composer.json not found in $PROJECT_DIR" >&2
+    exit 1
+fi
 
 # Install PHP dependencies
 composer install --no-dev --optimize-autoloader
