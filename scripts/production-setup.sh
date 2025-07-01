@@ -21,10 +21,21 @@ apt-get update
 apt-get install -y software-properties-common
 add-apt-repository -y ppa:ondrej/php
 apt-get update
+
+# Install required packages without interactive prompts
+export DEBIAN_FRONTEND=noninteractive
+# Allow services to start during installation to avoid dpkg errors
+echo '#!/bin/sh
+exit 0' >/usr/sbin/policy-rc.d
+chmod +x /usr/sbin/policy-rc.d
+
 apt-get install -y nginx mysql-server redis-server git curl unzip nodejs npm \
     php${PHP_VERSION} php${PHP_VERSION}-fpm php${PHP_VERSION}-mysql php${PHP_VERSION}-xml \
     php${PHP_VERSION}-mbstring php${PHP_VERSION}-curl php${PHP_VERSION}-zip \
     php${PHP_VERSION}-bcmath php${PHP_VERSION}-gd php${PHP_VERSION}-intl
+
+# Clean up policy file
+rm -f /usr/sbin/policy-rc.d
 
 
 # Install Composer
@@ -34,7 +45,8 @@ fi
 
 # Install Bun
 if ! command -v bun > /dev/null 2>&1; then
-    curl -fsSL https://bun.sh/install | bash -s -- --yes >/dev/null
+    # Install the latest Bun release without arguments
+    curl -fsSL https://bun.sh/install | bash
 
     export BUN_INSTALL="${HOME}/.bun"
     export PATH="${BUN_INSTALL}/bin:$PATH"
