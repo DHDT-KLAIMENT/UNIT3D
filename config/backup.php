@@ -229,7 +229,8 @@ return [
         'notifiable' => Spatie\Backup\Notifications\Notifiable::class,
 
         'mail' => [
-            'to' => env('DEFAULT_OWNER_EMAIL'),
+            // Ensure a valid email string is always provided
+            'to' => env('DEFAULT_OWNER_EMAIL', env('MAIL_FROM_ADDRESS', '')),
 
             'from' => [
                 'address' => env('MAIL_FROM_ADDRESS'),
